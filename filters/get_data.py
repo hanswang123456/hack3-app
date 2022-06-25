@@ -38,5 +38,3 @@ def give_movie_data(name):
     id = give_id('Movie', name)
     return give_data(id)
 
-
-
