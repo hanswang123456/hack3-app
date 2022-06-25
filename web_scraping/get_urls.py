@@ -51,4 +51,5 @@ def method2():
 
         return links
 
-    print(scrape_google("anime op mc"))
+    print(scrape_google("best animal movie"))
+method2()
