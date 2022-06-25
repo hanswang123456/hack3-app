@@ -1,0 +1,121 @@
+body {
+  font-family: "Helvetica Roman", sans-serif;
+  color: var(--white);
+  line-height: 1.4;
+
+  background-color: var(--primary);
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+}
+
+h1 {
+  font-family: "Helvetica Bold Extended", sans-serif;
+  text-align: center;
+  font-size: var(--text-36);
+}
+
+/* Large containers - begin*/
+.container {
+  max-width: 975px;
+  margin: 0 auto;
+}
+
+.navigation {
+  padding: 2rem 0;
+  background-color: var(--secondary);
+  margin-bottom: 9rem;
+}
+
+.search_container {
+  padding: 0 2rem;
+  margin-bottom: 10rem;
+}
+
+/* Large containers - end */
+
+/* Search - begin */
+.search {
+  display: flex;
+  justify-content: space-between;
+  color: var(--black-60);
+  max-width: 625px;
+
+  background-color: var(--white);
+  border-radius: 4px;
+  padding: 1.3rem 0;
+  margin: 0 auto;
+}
+
+.search_group {
+  display: flex;
+}
+
+.search_text,
+.icon {
+  margin: auto 0;
+}
+
+.icon {
+  padding: 0 2rem;
+  cursor: pointer;
+}
+
+.icon:hover path {
+  stroke: var(--accent);
+}
+
+/* Search - end */
+
+/* Card - begin*/
+.card {
+  max-width: 290px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.card:hover .card_header {
+  color: var(--accent);
+}
+
+.card_image {
+  max-width: inherit;
+  border-radius: 4px;
+}
+
+.card_info {
+  padding: 0 1.6em;
+}
+
+.card_header {
+  font-size: var(--text-22);
+  margin: 1rem 0;
+}
+
+.card_description {
+  font-size: var(--text-14);
+  color: var(--white-50);
+}
+/* Card - end */
+
+/* Recommendations */
+.recommendations {
+  padding: 0 2rem;
+}
+
+.recommendation_list {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.recommendations_header {
+  font-family: "Helvetica Medium", sans-serif;
+  font-size: var(--text-22);
+  margin-bottom: 2rem;
+}
