@@ -1,0 +1,51 @@
+body,
+h1 {
+  font-family: "Raleway", sans-serif;
+}
+body,
+html {
+  height: 99%;
+  margin: none;
+}
+html {
+  margin: none;
+  background-image: url("https://external-preview.redd.it/Z-mdOCdgw53wluJKQdklW2-WwJEcd3zXoER3YNl-euI.jpg?auto=webp&s=9da2a0406734c547c7bc489c5fa20b091c7ee86c");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  overflow: hidden;
+}
+.search-form {
+  background-color: rgba(58, 58, 58, 0.8);
+  margin: 10% auto;
+  height: auto;
+  margin-top: 10%;
+  width: auto;
+  max-width: 80%;
+}
+.search-prompt {
+  font-family: serif;
+  font-size: 100px;
+  color: white;
+  text-align: center;
+}
+.search-field {
+  width: 80%;
+  min-width: 500px;
+  margin: 0px auto;
+}
+.user-input {
+  outline: none;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid white;
+  color: white;
+  background-color: rgb(41, 41, 41);
+  height: 100px;
+  font-size: 60px;
+}
+.footer {
+  width: 50%;
+  min-width: 500px;
+  margin: 0px auto;
+}
