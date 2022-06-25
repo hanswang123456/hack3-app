@@ -1,0 +1,4 @@
+1. work on imdb api to get info about movie names which we got
+2. Done - work on a function to get the urls from google once you enter a keyword
+3. Hardest part: work on general python code to webscrape movie names from the urls 
+4. work on the filters - set them on front end, and I will have the IMDB api code
