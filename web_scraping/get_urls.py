@@ -52,4 +52,5 @@ def method2():
         return links
 
     print(scrape_google("best animal movie"))
+    
 method2()
