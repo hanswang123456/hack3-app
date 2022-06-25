@@ -6,22 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
-      href="{{url_for('static', filename ='style.css')}}"
+      href="{{url_for('static', filename='css/global.css')}}"
     />
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename ='css/style.css')}}"
+    />
+
+
   </head>
   <body>
-    <div class="search-form">
-      <div class="logo">Logo</div>
-      <div class="search-field">
-        <h1 class="search-prompt">Search For a Show:</h1>
-        <input class="user-input" type="text" />
+
+    <div class="navigation"></div>
+    <div class="container">
+      <div class="search_container">
+        <h1>Pick your next movie right away</h1>
+        <div class="search">
+          <div class="search_group">
+            <span class="icon"
+              ><img src="../static/icons/search.svg" alt="search"
+            /></span>
+
+            <input class="search_text" type="text" placeholder="Search movies right now...">
+          </input>
+          </div>
+
+          <span class="icon" data-filter-button>
+            <svg
+              width="20"
+              height="23"
+              viewBox="0 0 20 23"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 14.9979V6.99795C18.9996 6.64722 18.9071 6.30276 18.7315 5.99911C18.556 5.69546 18.3037 5.44331 18 5.26795L11 1.26795C10.696 1.09241 10.3511 1 10 1C9.64893 1 9.30404 1.09241 9 1.26795L2 5.26795C1.69626 5.44331 1.44398 5.69546 1.26846 5.99911C1.09294 6.30276 1.00036 6.64722 1 6.99795V14.9979C1.00036 15.3487 1.09294 15.6931 1.26846 15.9968C1.44398 16.3004 1.69626 16.5526 2 16.7279L9 20.7279C9.30404 20.9035 9.64893 20.9959 10 20.9959C10.3511 20.9959 10.696 20.9035 11 20.7279L18 16.7279C18.3037 16.5526 18.556 16.3004 18.7315 15.9968C18.9071 15.6931 18.9996 15.3487 19 14.9979Z"
+                stroke="#666666"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M1.27002 5.95796L10 11.008L18.73 5.95796"
+                stroke="#666666"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10 21.078V10.998"
+                stroke="#666666"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <!-- todo: add the filter options and style it here. -->
+        </div>
       </div>
-      <div class="footer">
-        Powered by
-        <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
-          >w3.css</a
-        >
+
+      <div class="recommendations">
+        <h2 class="recommendations_header">Recommendations</h3>
+        <div class="recommendation_list"></div>
       </div>
+
+      <template data-movie-card>
+        <div class="card" data-redirect="#">
+          <img
+            class="card_image"
+            src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+            alt="An image of the actual movie"
+          />
+          <div class="card_info">
+            <h3 class="card_header">An interesting movie</h3>
+            <p class="card_description">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque,
+              fugit impedit libero ipsum ipsam inventore cupiditate vero ratione
+              perspiciatis nesciunt.
+            </p>
+          </div>
+        </div>
+      </template>
     </div>
+    <script>
+      // Example of cloning and adding to the page :)
+      const template = document.querySelector('[data-movie-card]')
+      console.log(template)
+      const titles = ["jdfakjjkfa", "jfaskjdfjaifea", "J#ewjf"]
+      const parent = document.querySelector('.recommendation_list')
+
+      titles.forEach(title => {
+        const cardClone = template.content.cloneNode(true)
+        const cardTitle = cardClone.querySelector('.card_header')
+        cardTitle.innerText = title
+        parent.appendChild(cardClone)
+      })
+    </script>
   </body>
 </html>
