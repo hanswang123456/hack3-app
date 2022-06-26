@@ -35,8 +35,6 @@ def testing(url):
 
 
 def testing2(url, type='h2'):
-
-
     headers = requests.utils.default_headers()
 
     headers.update(
@@ -73,9 +71,6 @@ def testing2(url, type='h2'):
             if name[1] == '.':
 
                 name = name[3:]
-
-
-
         terms_list.append(name.strip())
 
     return terms_list
@@ -90,6 +85,39 @@ def check_valid_test(results):
     if null_count > 4:
         return False
     return True
+
+def testing_fandom(url):
+    headers = requests.utils.default_headers()
+    headers.update(
+        {
+            'User-Agent': 'My User Agent 1.0',
+        }
+    )
+
+    result = requests.get(url, headers=headers)
+    soup = bs4.BeautifulSoup(result.text, 'lxml')
+    terms = soup.select('h3')
+
+    terms_list = []
+
+    for i in terms:
+      
+        cur = str(i)[::-1]
+
+        name = ''
+        for j in range(len(cur)):
+            if cur[j] == '<':
+                index = j + 1
+                break
+   
+        while cur[index] != '>':
+            
+            name += cur[index]
+            index += 1
+
+        terms_list.append(name[::-1].strip())
+
+    return terms_list
 
 def testing_cbr(url):
 
@@ -154,11 +182,17 @@ def testing_final(url):
         response = check_valid_test(res)
         if response:
             return res
+    if 'https://www.fandomspot.' in url:
+        res = testing_fandom(url)
+        response = check_valid_test(res)
+        if response:
+            return res
 
 def scrapeUrls(urls):
-  data = []
+  data = set()
 
   for u in urls:
+<<<<<<< HEAD
     # cur_data = testing_final(u)
     # if cur_data:
       # data.extend(testing_final(u))
@@ -169,3 +203,12 @@ def scrapeUrls(urls):
 
 # urls = method1(input())
 # print(scrapeUrls(urls))
+=======
+    cur_data = testing_final(u)
+    if cur_data:
+        data.add(tuple(testing_final(u)))
+
+  return data
+
+
+>>>>>>> 40bc4f0ed7d2250a366566ee3850de20975570d6
