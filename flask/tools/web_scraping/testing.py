@@ -8,12 +8,16 @@ def scrapeUrls(urls):
   for u in urls:
     cur_data = testing_final(u)
     if cur_data:
-        data.add(tuple(testing_final(u)))
+   
+        data.add(tuple(cur_data))
     else:
-        print*u
+        print(u)
 
   return data
 
 
 urls = method1(input())
-print(scrapeUrls(urls))
+res = scrapeUrls(urls)
+print(res)
+print(len(res))
+

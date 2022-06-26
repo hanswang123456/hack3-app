@@ -1,4 +1,3 @@
-from tkinter.font import names
 import requests
 import bs4
 
@@ -47,17 +46,18 @@ def testing2(url, type='h2'):
     result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select(type)
-  
+
     terms_list = []
 
     for i in terms:
         cur = str(i)
         for j in range(len(str(i))):
-            if cur[j:j+2] == '</':
+            if cur[j:j+3] == '</h':
                 index = j - 1
                 break
 
         name = ''
+       
         while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
           
             name += cur[index]
@@ -80,11 +80,14 @@ def testing2(url, type='h2'):
 def check_valid_test(results):
     if len(results) < 5:
         return False
-    null_count = 0
+    short_count = 0
+    long_count = 0
     for i in results:
         if len(i) < 3:
-            null_count += 1
-    if null_count > 4:
+            short_count += 1
+        if len(i) > 50:
+            long_count += 1
+    if short_count > 4 or long_count > 4:
         return False
     return True
 
@@ -244,9 +247,10 @@ def scrapeUrls(urls):
   for u in urls:
     cur_data = testing_final(u)
     if cur_data:
-        data.add(tuple(testing_final(u)))
+        data.add(tuple(cur_data))
 
   return data
 
-print(testing2('https://www.gamesradar.com/upcoming-horror-movies/'))
+
+
 
