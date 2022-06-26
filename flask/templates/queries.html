@@ -1,64 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your result</title>
-   <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/global.css')}}"
-    />
-
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/style.css')}}"
-    />
-
-  </head>
-  <body>
-    <div class="navigation">
-      <a href=".">Return to home</a>
-    </div>
-    <div class="container">
-    <div class="recommendations">
-      <h2 class="recommendations_header">Your recommendation based on what you searched</h3>
-      <div class="recommendation_list"></div>
-    </div>
-
-    <!-- Cards and results. -->
-    <template data-movie-card>
-      <div class="card" data-redirect="#">
-        <img
-          class="card_image"
-          src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
-          alt="An image of the actual movie"
-        />
-        <div class="card_info">
-          <h3 class="card_header">An interesting movie</h3>
-          <p class="card_description">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque,
-            fugit impedit libero ipsum ipsam inventore cupiditate vero ratione
-            perspiciatis nesciunt.
-          </p>
-        </div>
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Your result</title>
+      <link
+         rel="stylesheet"
+         href="{{url_for('static', filename='css/global.css')}}"
+         />
+      <link
+         rel="stylesheet"
+         href="{{url_for('static', filename='css/style.css')}}"
+         />
+   </head>
+   <body>
+      <div class="navigation">
+         <a href=".">Return to home</a>
       </div>
-    </template>
-
-    </div>
-   <script>
-      // Example of cloning and adding to the page :)
-      const template = document.querySelector('[data-movie-card]')
-      console.log(template)
-      const titles = ["jdfakjjkfa", "jfaskjdfjaifea", "J#ewjf"]
-      const parent = document.querySelector('.recommendation_list')
-
-      titles.forEach(title => {
-        const cardClone = template.content.cloneNode(true)
-        const cardTitle = cardClone.querySelector('.card_header')
-        cardTitle.innerText = title
-        parent.appendChild(cardClone)
-      })
-    </script>
-  </body>
+      <div class="container">
+         <div class="recommendations">
+            <h2 class="recommendations_header">
+            Your recommendation based on what you searched</h3>
+            <div class="recommendation_list">
+               {% for title in data %}
+               <div class="card" data-redirect="#">
+                  <img
+                     class="card_image"
+                     src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+                     alt="An image of the actual movie"
+                     />
+                  <div class="card_info">
+                     <h3 class="card_header">{{ title }}</h3>
+                     <p class="card_description">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque,
+                        fugit impedit libero ipsum ipsam inventore cupiditate vero ratione
+                        perspiciatis nesciunt.
+                     </p>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+         </div>
+      </div>
+   </body>
 </html>
