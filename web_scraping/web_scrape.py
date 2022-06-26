@@ -101,6 +101,7 @@ def testing2(type='h2'):
         terms_list.append(name.strip())
 
     return terms_list
+
 def check_valid_test(results):
     if len(results) < 5:
         return False
@@ -135,16 +136,21 @@ def testing_cbr():
             if term[i:i+7] == '</span>':
                 index = i + 8
                 break
-        while term[index] != '<':
-            
-            name += term[index]
-            index += 1
+        try:
+            index
+        except:
+            pass
+        else:
+            while term[index] != '<':
+                
+                name += term[index]
+                index += 1
         name = name.replace(u'\xa0', u' ')
         name = name.replace(u'&amp;', u'and')
         names_list.append(name)
     
     return names_list
-
+print(testing_cbr())
 def testing_final():
     res = testing()
 
@@ -171,7 +177,7 @@ def testing_final():
         if response:
             return res
     
-print(testing_final())
+# print(testing_final())
 
 
     
