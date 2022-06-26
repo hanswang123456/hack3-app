@@ -13,7 +13,9 @@ def hello():
 def result():
   if request.method == "GET":
     # 1. Get the urls from the urls scraper
-    movie_name = f"${request.url.split('movie_name=')[1].strip()} movie titles"
+
+    movie_name = f"${request.url.split('movie_name=')[1].strip()} titles"
+    print(movie_name, 'wow')
     urls = getURL.method2(movie_name)
     print(urls)
 
