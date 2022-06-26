@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename ='css/style.css')}}"
+    />
+  </head>
+  <header><div class="logo">What 2 Watch</div></header>
+  <body>
+    <div class="search-form">
+      <h1 class="search-prompt">Pick Your Next Movie</h1>
+      <div class="search">
+        <form method="POST" class="search">
+          <span class="icon">
+            <img src="../static/icons/search.svg" alt="search"
+          /></span>
+          <input
+            placeholder="Search movies right now..."
+            name="text"
+            class="search_text"
+          />
+          <input type="submit" class="input-button" value="Search" />
+        </form>
+      </div>
+      <div id="displayResult" class="search-prompt"></div>
+    </div>
+  </body>
+</html>
