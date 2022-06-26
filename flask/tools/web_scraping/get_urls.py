@@ -48,7 +48,12 @@ def method2(query):
                         'https://policies.google.',
                         'https://support.google.',
                         'https://maps.google.',
-                        'https://www.youtube.')
+                        'https://www.youtube.',
+                        'https://en.wikipedia.',
+                        'https://myanimelist.', 
+                        'https://www.reddit.', 
+                        'https://www.quora.', 
+                        'https://translate.google.')
 
         for url in links[:]:
             if url.startswith(google_domains):
