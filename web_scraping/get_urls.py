@@ -1,7 +1,6 @@
 import requests
 import urllib
-import pandas as pd
-from requests_html import HTML
+
 from requests_html import HTMLSession
 from googlesearch import search   
 
@@ -57,4 +56,3 @@ def method2(query):
 
     return scrape_google()
 
-print(method1('anime cool mc'))

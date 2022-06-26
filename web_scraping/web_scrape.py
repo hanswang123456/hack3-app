@@ -1,8 +1,9 @@
 import requests
 import bs4
+from get_urls import method1
 
-sample_url = 'https://www.cbr.com/heartbreaking-anime-happy-endings/'
-def testing():
+
+def testing(url):
     
    
     names_list = []
@@ -14,7 +15,7 @@ def testing():
         }
     )
 
-    result = requests.get(sample_url, headers=headers)
+    result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
     terms_list = str(soup.select('body')[0])
@@ -31,32 +32,10 @@ def testing():
                     anime_name += terms_list[cur_index] 
                     cur_index += 1
                 names_list.append(anime_name.strip())
-                # new_name = ''
-                # num_tags = 0
-                # for j in range(len(anime_name)):
-                #     if anime_name[j] == '<':
-                #         num_tags += 1
-                #     if anime_name[j] == '>':
-                #         num_tags += 1
-                #         continue
-                #     if num_tags % 2 == 0:
-                #         new_name += anime_name[j]
-                #     if num_tags == 3:
-                #         break
-                # # print(new_name)
-                # name_v2 = ""
-                # for l in new_name:
-                #     if l.isalnum() or l in ['.', ',', '!', '?', ';', ' ', '(', ')']:
-                #         name_v2 += l
-                #     else:
-                #         break
-                # # print(name_v2)
-
-                # names_list.append(anime_name)
     return names_list
 
 
-def testing2(type='h2'):
+def testing2(url, type='h2'):
 
     
     headers = requests.utils.default_headers()
@@ -67,7 +46,7 @@ def testing2(type='h2'):
         }
     )
 
-    result = requests.get(sample_url, headers=headers)
+    result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select(type)
 
@@ -113,7 +92,7 @@ def check_valid_test(results):
         return False
     return True
 
-def testing_cbr():
+def testing_cbr(url):
 
     names_list = []
     headers = requests.utils.default_headers()
@@ -125,7 +104,7 @@ def testing_cbr():
     )
 
 
-    result = requests.get(sample_url, headers=headers)
+    result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select('h2')
 
@@ -150,34 +129,36 @@ def testing_cbr():
         names_list.append(name)
     
     return names_list
-print(testing_cbr())
-def testing_final():
-    res = testing()
+
+def testing_final(url):
+    res = testing(url)
 
     response = check_valid_test(res)
     if response:
         print(1)
         return res
-    res = testing2()
+    res = testing2(url)
   
     response = check_valid_test(res)
     if response:
         print(2)
         return res
-    res = testing2('h3')
+    res = testing2(url, 'h3')
    
     response = check_valid_test(res)
     if response:
         print(3)
         return res
     
-    if 'https://www.cbr.' in sample_url:
-        res = testing_cbr()
+    if 'https://www.cbr.' in url:
+        res = testing_cbr(url)
         response = check_valid_test(res)
         if response:
             return res
-    
-# print(testing_final())
+big = []
+for i in method1(input()):
+    big.extend(testing_final(i))
+    print(big)
 
 
     
