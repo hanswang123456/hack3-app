@@ -11,26 +11,25 @@
 
     <link
       rel="stylesheet"
-      href="{{url_for('static', filename ='css/style.css')}}"
+      href="{{url_for('static', filename='css/style.css')}}"
     />
 
-
+    <script src="{{url_for('static', filename='js/script.js')}}" defer></script>
   </head>
   <body>
 
-    <div class="navigation"></div>
+    <div class="navigation">
+    </div>
     <div class="container">
       <div class="search_container">
         <h1>Pick your next movie right away</h1>
         <div class="search">
-          <div class="search_group">
-            <span class="icon"
+          <form class="search_group" action="/result", method="get">
+            <button type="submit" class="icon"
               ><img src="../static/icons/search.svg" alt="search"
-            /></span>
-
-            <input class="search_text" type="text" placeholder="Search movies right now...">
-          </input>
-          </div>
+            /></button>
+            <input class="search_text" type="text" name="movie_name" placeholder="Search movies right now..."></input>
+          </form>
 
           <span class="icon" data-filter-button>
             <svg
@@ -66,43 +65,7 @@
           <!-- todo: add the filter options and style it here. -->
         </div>
       </div>
-
-      <div class="recommendations">
-        <h2 class="recommendations_header">Recommendations</h3>
-        <div class="recommendation_list"></div>
-      </div>
-
-      <template data-movie-card>
-        <div class="card" data-redirect="#">
-          <img
-            class="card_image"
-            src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
-            alt="An image of the actual movie"
-          />
-          <div class="card_info">
-            <h3 class="card_header">An interesting movie</h3>
-            <p class="card_description">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque,
-              fugit impedit libero ipsum ipsam inventore cupiditate vero ratione
-              perspiciatis nesciunt.
-            </p>
           </div>
-        </div>
-      </template>
-    </div>
-    <script>
-      // Example of cloning and adding to the page :)
-      const template = document.querySelector('[data-movie-card]')
-      console.log(template)
-      const titles = ["jdfakjjkfa", "jfaskjdfjaifea", "J#ewjf"]
-      const parent = document.querySelector('.recommendation_list')
 
-      titles.forEach(title => {
-        const cardClone = template.content.cloneNode(true)
-        const cardTitle = cardClone.querySelector('.card_header')
-        cardTitle.innerText = title
-        parent.appendChild(cardClone)
-      })
-    </script>
   </body>
 </html>
