@@ -11,5 +11,6 @@ def scrapeUrls(urls):
     else:
         print(u)
   return data
+  
 urls = method1(input())
 print(scrapeUrls(urls))

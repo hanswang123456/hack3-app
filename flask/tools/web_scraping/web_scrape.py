@@ -158,7 +158,60 @@ def testing_cbr(url):
 
     return names_list
 
+def testing_imdb(url):
+    headers = requests.utils.default_headers()
+    headers.update(
+        {
+            'User-Agent': 'My User Agent 1.0',
+        }
+    )
+
+    result = requests.get(url, headers=headers)
+    soup = bs4.BeautifulSoup(result.text, 'lxml')
+    terms = soup.select('h3')
+  
+    terms_list = []
+
+    for i in terms:
+      
+        cur = str(i)[::-1]
+
+        name = ''
+        for j in range(len(cur)):
+            if cur[j:j+4] == '>a/<':
+                index = j + 4
+                break
+       
+        try:
+            cur[index] 
+        except:
+            pass
+        else:
+            while cur[index] != '>':
+                
+                name += cur[index]
+                index += 1
+                if index >= len(cur):
+                    break
+
+        terms_list.append(name[::-1].strip())
+
+    return terms_list[:-3]
+
 def testing_final(url):
+
+    if 'https://www.fandomspot.' in url:
+        res = testing_fandom(url)
+        response = check_valid_test(res)
+        if response:
+            return res
+
+    if 'https://www.imdb' in url:
+        res = testing_imdb(url)
+        response = check_valid_test(res)
+        if response:
+            return res
+
     res = testing(url)
 
     response = check_valid_test(res)
@@ -180,11 +233,6 @@ def testing_final(url):
 
     if 'https://www.cbr.' in url:
         res = testing_cbr(url)
-        response = check_valid_test(res)
-        if response:
-            return res
-    if 'https://www.fandomspot.' in url:
-        res = testing_fandom(url)
         response = check_valid_test(res)
         if response:
             return res
