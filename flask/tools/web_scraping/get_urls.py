@@ -3,11 +3,11 @@ import urllib
 import pandas as pd
 from requests_html import HTML
 from requests_html import HTMLSession
-from googlesearch import search   
+from googlesearch import search
 
 def method1(query):
     links = []
-    for j in search(query, tld="co.in", num=10, stop=10, pause=2): 
+    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
         if 'https://www.youtube.' not in j:
             links.append(j)
     return links
@@ -15,11 +15,11 @@ def method1(query):
 def method2(query):
 
     def get_source(url):
-        """Return the source code for the provided URL. 
-        Args: 
+        """Return the source code for the provided URL.
+        Args:
             url (string): URL of the page to scrape.
         Returns:
-            response (object): HTTP response object from requests_html. 
+            response (object): HTTP response object from requests_html.
         """
 
         try:
@@ -36,14 +36,15 @@ def method2(query):
         response = get_source("https://www.google.co.uk/search?q=" + query_v2)
 
         links = list(response.html.absolute_links)
-        google_domains = ('https://www.google.', 
-                        'https://google.', 
-                        'https://webcache.googleusercontent.', 
-                        'http://webcache.googleusercontent.', 
+        google_domains = ('https://www.google.',
+                        'https://google.',
+                        'https://webcache.googleusercontent.',
+                        'http://webcache.googleusercontent.',
                         'https://policies.google.',
                         'https://support.google.',
                         'https://maps.google.',
-                        'https://www.youtube.')
+                        'https://www.youtube.',
+                        'https://translate.google')
 
         for url in links[:]:
             if url.startswith(google_domains):
@@ -52,4 +53,3 @@ def method2(query):
         return links
 
     return scrape_google()
-

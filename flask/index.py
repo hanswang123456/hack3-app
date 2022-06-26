@@ -12,11 +12,14 @@ def hello():
 def result():
   if request.method == "GET":
     # 1. Get the urls from the urls scraper
-    movie_name = f"${request.url.split('movie_name=')[1].strip()} movie"
+    specific_site = "cbr.com"
+    movie_name = f"site:${specific_site} ${request.url.split('movie_name=')[1].strip()}"
     urls = getURL.method2(movie_name)
+    print(urls)
 
     # 2. Using the urls to scrape data, and get the data back.
-    # datat = webScraper.scrapeUrls(urls)
+    data = webScraper.scrapeUrls(urls)
+    print(data)
 
     # 3. Send data back and render it.
     return render_template('queries.html', data="0")
