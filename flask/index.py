@@ -23,7 +23,7 @@ def result():
     print(data)
 
     # 3. Send data back and render it.
-    return render_template('queries.html', data="0")
+    return render_template('queries.html', data=data)
 
   return render_template('index.html')
 
