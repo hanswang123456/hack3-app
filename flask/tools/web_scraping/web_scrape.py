@@ -81,13 +81,12 @@ def check_valid_test(results):
     if len(results) < 5:
         return False
     short_count = 0
-    long_count = 0
+
     for i in results:
         if len(i) < 3:
             short_count += 1
-        if len(i) > 50:
-            long_count += 1
-    if short_count > 4 or long_count > 4:
+
+    if short_count > 4:
         return False
     return True
 
