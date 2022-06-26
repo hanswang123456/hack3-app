@@ -133,3 +133,16 @@ h1 {
   font-size: var(--text-22);
   margin-bottom: 2rem;
 }
+
+/* No content - begin */
+.no_content {
+  margin: 0 auto;
+  padding: 6rem 0;
+}
+
+.no_content_paragraph {
+  font-size: var(--text-14);
+  color: var(--white-50);
+}
+
+/* No content - end */
