@@ -1,0 +1,43 @@
+/* General file that resets every CSS */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #090c2b;
+  --secondary: #070812;
+  --accent: #4d5cf7;
+
+  --white: #fff;
+  --white-50: #acacac;
+  --black-100: #000;
+  --black-80: #333;
+  --black-60: #666;
+  --black-40: #999;
+  --black-20: #ccc;
+
+  --text-95: 5.9375rem;
+  --text-59: 3.6875rem;
+  --text-36: 2.25rem;
+  --text-22: 1.375rem;
+  --text-14: 0.875rem;
+}
+
+@font-face {
+  font-family: "Helvetica Bold Extended";
+  src: url("../fonts/Helvetica/Helvetica\ Neue\ LT\ 73\ Bold\ Extended.ttf");
+}
+
+@font-face {
+  font-family: "Helvetica Medium";
+  src: url("../fonts/Helvetica/Helvetica\ Neue\ LT\ 65\ Medium.ttf");
+}
+
+@font-face {
+  font-family: "Helvetica Roman";
+  src: url("../fonts/Helvetica/Helvetica\ Neue\ LT\ 55\ Roman.ttf");
+}

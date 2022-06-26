@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename ='css/listings.css')}}"
+    />
+  </head>
+  <header>
+    <div class="logo">
+      <img
+        style="height: 100px; width: 300px"
+        src="../static/icons/logo.png"
+        alt=""
+      />
+    </div>
+    <button class="home-button" onclick="go_home()">Home</button>
+  </header>
+  <body>
+    <div class="filters" onclick="message()">
+      <div>Filter By Genre</div>
+      <div>Filter By Release Date</div>
+      <div>Filter By Rating</div>
+    </div>
+    <div class="recommendations">
+      <h1 class="recommendations_header">Recommendations</h1>
+      <div id="recommendation_list"></div>
+    </div>
+  </body>
+  <script>
+    alert(
+      "Due to IMDB request limits, the reccomendations on the page are not updated."
+    );
+    function go_home() {
+      window.location = "/";
+    }
+    function message() {
+      alert(
+        "This feature is currently unavailable due to IMDB request limits."
+      );
+    }
+
+    var scrapeData = "{{data}}";
+    var posterData = "{{posters}}";
+    posterData = posterData.replaceAll("&#39;", "");
+    posterData = posterData.replaceAll("[", "");
+    posterData = posterData.replaceAll("]", "");
+
+    scrapeData = scrapeData.replaceAll("&#39;", "");
+    scrapeData = scrapeData.replaceAll("[", "");
+    scrapeData = scrapeData.replaceAll("]", "");
+    scrapeData = scrapeData.replaceAll(" '' ", "");
+
+    const info = scrapeData.split(", ");
+    const posters = posterData.split(",");
+    console.log(posters);
+
+    const root = document.getElementById("recommendation_list");
+
+    for (let i = 0; i < info.length; i++) {
+      if (i >= 12) {
+        break;
+      }
+      //split the current element from the dashes to make name and description
+      var currentInfo = info[i].split(" — ");
+      var elementBox = document.createElement("div");
+      elementBox.className = "card";
+      elementBox.innerHTML =
+        '<div class="card" data-redirect="#">' +
+        '<img class="card_image" src=' +
+        posters[i] +
+        ' alt="An image of the actual movie"/>' +
+        '<div class="card_info">' +
+        '<h3 class="card_header">' +
+        currentInfo[0] +
+        "</h3>" +
+        '<p class="card_description">' +
+        currentInfo[1] +
+        "</p></div> </div>";
+      root.appendChild(elementBox);
+    }
+  </script>
+</html>

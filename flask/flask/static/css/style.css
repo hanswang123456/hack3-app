@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Roboto&display=swap");
+body,
+h2 {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  font-size: var(--text-36);
+}
+body,
+html {
+  height: 99%;
+  margin: none;
+}
+html {
+  margin: none;
+  background-image: url("https://external-preview.redd.it/Z-mdOCdgw53wluJKQdklW2-WwJEcd3zXoER3YNl-euI.jpg?auto=webp&s=9da2a0406734c547c7bc489c5fa20b091c7ee86c");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  overflow: hidden;
+}
+header {
+  font-family: "Roboto", sans-serif;
+  margin: 0px auto;
+  height: 10%;
+  max-width: 80%;
+  min-width: 1100px;
+  background-color: #090c2b;
+  color: white;
+  font-size: 50px;
+  border-radius: 2%;
+}
+.logo {
+  width: 40%;
+  min-width: 400px;
+}
+.search-form {
+  background-color: #090c2b;
+  margin: 10% auto;
+  height: auto;
+  margin-top: 5%;
+  width: auto;
+  max-width: 80%;
+  min-width: 1100px;
+  padding-bottom: 5%;
+  border-radius: 2%;
+}
+.search-prompt {
+  font-size: 100px;
+  color: white;
+  text-align: center;
+}
+.search-field {
+  width: 50%;
+  min-width: 500px;
+  margin: 0px auto;
+}
+.input-button {
+  margin: 5px auto;
+  width: 30%;
+  margin-left: 5px;
+  color: white;
+  background-color: #090c2b;
+  height: 60px;
+  border: 1px solid white;
+  border-radius: 5%;
+}
+
+.footer {
+  width: 50%;
+  min-width: 500px;
+  margin: 0px auto;
+}
+
+body {
+  font-family: "Helvetica Roman", sans-serif;
+  color: var(--white);
+  line-height: 1.4;
+
+  background-color: var(--primary);
+}
+
+input {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+}
+
+h1 {
+  font-family: "Helvetica Bold Extended", sans-serif;
+  text-align: center;
+  font-size: var(--text-36);
+}
+
+/* Large containers - begin*/
+.container {
+  max-width: 975px;
+  margin: 0 auto;
+}
+
+.navigation {
+  padding: 2rem 0;
+  background-color: var(--secondary);
+  margin-bottom: 9rem;
+}
+
+.search_container {
+  padding: 0 2rem;
+  margin-bottom: 10rem;
+}
+
+/* Large containers - end */
+
+/* Search - begin */
+.search {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  color: var(--black-60);
+  width: 1000px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  padding: 1rem 1rem;
+  margin: 0 auto;
+}
+
+.search_group {
+  display: flex;
+}
+.search_text {
+  outline: none;
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid #090c2b;
+  color: #090c2b;
+  background-color: whitesmoke;
+  height: 60px;
+  font-size: 40px;
+}
+
+.icon {
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+.icon:hover path {
+  stroke: var(--accent);
+}
+
+/* Search - end */
