@@ -59,11 +59,11 @@ def testing2(url, type='h2'):
         name = ''
        
         while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
-          
+
             name += cur[index]
             index -= 1
         name = name[::-1]
- 
+
         if len(name) > 2:
             if name[2] == '.':
                 name = name[4:]
@@ -74,7 +74,7 @@ def testing2(url, type='h2'):
 
                 name = name[3:]
         terms_list.append(name.strip())
-     
+
     return terms_list
 
 def check_valid_test(results):
@@ -105,7 +105,7 @@ def testing_fandom(url):
     terms_list = []
 
     for i in terms:
-      
+
         cur = str(i)[::-1]
 
         name = ''
@@ -113,9 +113,9 @@ def testing_fandom(url):
             if cur[j] == '<':
                 index = j + 1
                 break
-   
+
         while cur[index] != '>':
-            
+
             name += cur[index]
             index += 1
 
@@ -172,11 +172,11 @@ def testing_imdb(url):
     result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select('h3')
-  
+
     terms_list = []
 
     for i in terms:
-      
+
         cur = str(i)[::-1]
 
         name = ''
@@ -184,14 +184,14 @@ def testing_imdb(url):
             if cur[j:j+4] == '>a/<':
                 index = j + 4
                 break
-       
+
         try:
-            cur[index] 
+            cur[index]
         except:
             pass
         else:
             while cur[index] != '>':
-                
+
                 name += cur[index]
                 index += 1
                 if index >= len(cur):
@@ -249,7 +249,4 @@ def scrapeUrls(urls):
         data.add(tuple(cur_data))
 
   return data
-
-
-
 
