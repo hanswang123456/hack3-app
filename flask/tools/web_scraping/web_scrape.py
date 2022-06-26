@@ -250,10 +250,3 @@ def scrapeUrls(urls):
 
   return data
 
-<<<<<<< HEAD
-# print(testing2('https://www.gamesradar.com/upcoming-horror-movies/'))
-=======
-
-
-
->>>>>>> d43f52c9c32789094882b7ac5d27e7af76c77c0f
