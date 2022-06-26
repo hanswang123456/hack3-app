@@ -7,8 +7,12 @@ from googlesearch import search
 
 def method1(query):
     links = []
+    avoid_list = ['https://www.youtube.', 'https://myanimelist.', 'https://www.reddit.', 'https://www.quora.']
     for j in search(query, tld="co.in", num=10, stop=10, pause=2): 
-        if 'https://www.youtube.' not in j:
+        for i in avoid_list:
+            if i in j:
+                break
+        else:
             links.append(j)
     return links
 
@@ -53,3 +57,4 @@ def method2(query):
 
     return scrape_google()
 
+print(method1('anime cool mc'))
