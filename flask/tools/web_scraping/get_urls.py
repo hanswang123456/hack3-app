@@ -2,12 +2,14 @@ import requests
 import urllib
 
 from requests_html import HTMLSession
-from googlesearch import search   
+from googlesearch import search
+
+URL_LIMIT = 5
 
 def method1(query):
     links = []
-    avoid_list = ['https://www.youtube.', 'https://myanimelist.', 'https://www.reddit.', 'https://www.quora.']
-    for j in search(query, tld="co.in", num=10, stop=10, pause=2): 
+    avoid_list = ['https://www.youtube.', 'https://myanimelist.', 'https://www.reddit.', 'https://www.quora.', 'https://translate.google.']
+    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
         for i in avoid_list:
             if i in j:
                 break
@@ -18,11 +20,11 @@ def method1(query):
 def method2(query):
 
     def get_source(url):
-        """Return the source code for the provided URL. 
-        Args: 
+        """Return the source code for the provided URL.
+        Args:
             url (string): URL of the page to scrape.
         Returns:
-            response (object): HTTP response object from requests_html. 
+            response (object): HTTP response object from requests_html.
         """
 
         try:
@@ -39,10 +41,10 @@ def method2(query):
         response = get_source("https://www.google.co.uk/search?q=" + query_v2)
 
         links = list(response.html.absolute_links)
-        google_domains = ('https://www.google.', 
-                        'https://google.', 
-                        'https://webcache.googleusercontent.', 
-                        'http://webcache.googleusercontent.', 
+        google_domains = ('https://www.google.',
+                        'https://google.',
+                        'https://webcache.googleusercontent.',
+                        'http://webcache.googleusercontent.',
                         'https://policies.google.',
                         'https://support.google.',
                         'https://maps.google.',
@@ -52,6 +54,6 @@ def method2(query):
             if url.startswith(google_domains):
                 links.remove(url)
 
-        return links
+        return links[:URL_LIMIT]
 
     return scrape_google()

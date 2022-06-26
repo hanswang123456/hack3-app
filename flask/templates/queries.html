@@ -23,25 +23,39 @@
             <h2 class="recommendations_header">
             Your recommendation based on what you searched</h3>
             <div class="recommendation_list">
+              {% if data %}
                {% for title in data %}
-               <div class="card" data-redirect="#">
+               <div class="card" data-redirect="{{ title }}">
                   <img
                      class="card_image"
-                     src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80"
+                     src="#"
                      alt="An image of the actual movie"
                      />
                   <div class="card_info">
                      <h3 class="card_header">{{ title }}</h3>
-                     <p class="card_description">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Neque,
-                        fugit impedit libero ipsum ipsam inventore cupiditate vero ratione
-                        perspiciatis nesciunt.
-                     </p>
+                     <p class="card_description">{{ title }}</p>
                   </div>
                </div>
                {% endfor %}
+              {% endif %}
+
+              {% if not data %}
+              <div class="no_content">
+                <p class="no_content_paragraph">There are no movies matched the search query :(</p>
+              </div>
+              {% endif %}
             </div>
          </div>
       </div>
+      <script>
+        document.addEventListener('click', e => {
+          if (!e.target.closest('.card')) return
+
+          const card = e.target.closest('.card')
+          const link = card.dataset.redirect
+
+          window.open(`https://www.google.com/search?q=${link}`, "_blank")
+        })
+      </script>
    </body>
 </html>

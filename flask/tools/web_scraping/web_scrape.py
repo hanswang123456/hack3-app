@@ -1,6 +1,5 @@
 import requests
 import bs4
-from get_urls import method1
 
 def testing(url):
 
@@ -31,7 +30,7 @@ def testing(url):
                     anime_name += terms_list[cur_index]
                     cur_index += 1
                 names_list.append(anime_name.strip())
-               
+
     return names_list
 
 
@@ -135,19 +134,19 @@ def testing_final(url):
 
     response = check_valid_test(res)
     if response:
-    
+
         return res
     res = testing2(url)
 
     response = check_valid_test(res)
     if response:
-        
+
         return res
     res = testing2(url,'h3')
 
     response = check_valid_test(res)
     if response:
- 
+
         return res
 
     if 'https://www.cbr.' in url:
@@ -160,12 +159,13 @@ def scrapeUrls(urls):
   data = []
 
   for u in urls:
-    cur_data = testing_final(u)
-    if cur_data:
-        data.extend(testing_final(u))
+    # cur_data = testing_final(u)
+    # if cur_data:
+      # data.extend(testing_final(u))
+    data.append(testing_cbr(u));
     # else:
     #     print(u)
   return data
+
 # urls = method1(input())
 # print(scrapeUrls(urls))
-
