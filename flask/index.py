@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import tools.web_scraping.get_urls as getURL
 import tools.web_scraping.web_scrape as webScraper
+import tools.utils.utils as util
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def result():
     print(urls)
 
     # 2. Using the urls to scrape data, and get the data back.
-    data = webScraper.scrapeUrls(urls)
+    data = util.removeEmptyList(webScraper.scrapeUrls(urls))
     print(data)
 
     # 3. Send data back and render it.
