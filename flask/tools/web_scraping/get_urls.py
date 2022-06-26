@@ -8,7 +8,7 @@ URL_LIMIT = 5
 
 def method1(query):
     links = []
-    avoid_list = ['https://www.youtube.', 'https://myanimelist.', 'https://www.reddit.', 'https://www.quora.', 'https://translate.google.']
+    avoid_list = ['https://en.wikipedia.', 'https://www.youtube.', 'https://myanimelist.', 'https://www.reddit.', 'https://www.quora.', 'https://translate.google.']
     for j in search(query, tld="co.in", num=10, stop=10, pause=2):
         for i in avoid_list:
             if i in j:

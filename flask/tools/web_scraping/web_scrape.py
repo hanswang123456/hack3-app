@@ -52,11 +52,12 @@ def testing2(url, type='h2'):
     for i in terms:
         cur = str(i)
         for j in range(len(str(i))):
-            if cur[j:j+2] == '</':
+            if cur[j:j+3] == '</h':
                 index = j - 1
                 break
 
         name = ''
+       
         while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
 
             name += cur[index]
@@ -79,11 +80,13 @@ def testing2(url, type='h2'):
 def check_valid_test(results):
     if len(results) < 5:
         return False
-    null_count = 0
+    short_count = 0
+
     for i in results:
         if len(i) < 3:
-            null_count += 1
-    if null_count > 4:
+            short_count += 1
+
+    if short_count > 4:
         return False
     return True
 
@@ -243,8 +246,14 @@ def scrapeUrls(urls):
   for u in urls:
     cur_data = testing_final(u)
     if cur_data:
-        data.add(tuple(testing_final(u)))
+        data.add(tuple(cur_data))
 
   return data
 
+<<<<<<< HEAD
 # print(testing2('https://www.gamesradar.com/upcoming-horror-movies/'))
+=======
+
+
+
+>>>>>>> d43f52c9c32789094882b7ac5d27e7af76c77c0f
