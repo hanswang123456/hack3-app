@@ -24,7 +24,7 @@
             Your recommendation based on what you searched</h3>
             <div class="recommendation_list">
               {% if data %}
-               {% for title in data %}
+               {% for title in data[:10] %}
                <div class="card" data-redirect="{{ title }}">
                   <img
                      class="card_image"
