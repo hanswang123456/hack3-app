@@ -2,7 +2,7 @@ import requests
 import bs4
 
 sample_url = 'https://www.cbr.com/heartbreaking-anime-happy-endings/'
-def testing(url):
+def testing():
 
 
     names_list = []
@@ -14,7 +14,7 @@ def testing(url):
         }
     )
 
-    result = requests.get(url, headers=headers)
+    result = requests.get(sample_url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
     terms_list = str(soup.select('body')[0])
@@ -56,7 +56,7 @@ def testing(url):
     return names_list
 
 
-def testing2(url,type='h2'):
+def testing2(type='h2'):
 
 
     headers = requests.utils.default_headers()
@@ -67,7 +67,7 @@ def testing2(url,type='h2'):
         }
     )
 
-    result = requests.get(url, headers=headers)
+    result = requests.get(sample_url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select(type)
 
@@ -136,10 +136,15 @@ def testing_cbr(url):
             if term[i:i+7] == '</span>':
                 index = i + 8
                 break
-        while term[index] != '<':
+        try:
+            index
+        except:
+            pass
+        else:
+            while term[index] != '<':
 
-            name += term[index]
-            index += 1
+                name += term[index]
+                index += 1
         name = name.replace(u'\xa0', u' ')
         name = name.replace(u'&amp;', u'and')
         names_list.append(name)
@@ -147,7 +152,7 @@ def testing_cbr(url):
     return names_list
 
 def testing_final(url):
-    res = testing(url)
+    res = testing()
 
     response = check_valid_test(res)
     if response:
@@ -159,24 +164,24 @@ def testing_final(url):
     if response:
         print(2)
         return res
-    res = testing2(url, 'h3')
+    res = testing2(url,'h3')
 
     response = check_valid_test(res)
     if response:
         print(3)
         return res
 
-    if 'https://www.cbr.' in url:
+    if 'https://www.cbr.' in sample_url:
         res = testing_cbr(url)
         response = check_valid_test(res)
         if response:
             return res
 
-# Scrape urls
 def scrapeUrls(urls):
   data = []
+
   for u in urls:
-    data.append(testing_final(u))
+    data.append(testing_cbr(u))
   return data
 
-# print(testing_final(sample_url))
+# print(testing_final())
