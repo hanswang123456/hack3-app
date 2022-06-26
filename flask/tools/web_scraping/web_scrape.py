@@ -1,3 +1,4 @@
+from tkinter.font import names
 import requests
 import bs4
 
@@ -46,7 +47,7 @@ def testing2(url, type='h2'):
     result = requests.get(url, headers=headers)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
     terms = soup.select(type)
-
+  
     terms_list = []
 
     for i in terms:
@@ -57,11 +58,12 @@ def testing2(url, type='h2'):
                 break
 
         name = ''
-        while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-']:
+        while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
+          
             name += cur[index]
             index -= 1
         name = name[::-1]
-
+ 
         if len(name) > 2:
             if name[2] == '.':
                 name = name[4:]
@@ -72,7 +74,7 @@ def testing2(url, type='h2'):
 
                 name = name[3:]
         terms_list.append(name.strip())
-
+     
     return terms_list
 
 def check_valid_test(results):
@@ -240,23 +242,11 @@ def scrapeUrls(urls):
   data = set()
 
   for u in urls:
-<<<<<<< HEAD
-    # cur_data = testing_final(u)
-    # if cur_data:
-      # data.extend(testing_final(u))
-    data.append(testing_cbr(u));
-    # else:
-    #     print(u)
-  return data
-
-# urls = method1(input())
-# print(scrapeUrls(urls))
-=======
     cur_data = testing_final(u)
     if cur_data:
         data.add(tuple(testing_final(u)))
 
   return data
 
+print(testing2('https://www.gamesradar.com/upcoming-horror-movies/'))
 
->>>>>>> 40bc4f0ed7d2250a366566ee3850de20975570d6
