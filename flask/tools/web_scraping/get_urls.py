@@ -50,9 +50,9 @@ def method2(query):
                         'https://maps.google.',
                         'https://www.youtube.',
                         'https://en.wikipedia.',
-                        'https://myanimelist.', 
-                        'https://www.reddit.', 
-                        'https://www.quora.', 
+                        'https://myanimelist.',
+                        'https://www.reddit.',
+                        'https://www.quora.',
                         'https://translate.google.')
 
         for url in links[:]:
