@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
-import tools.web_scraping.get_urls as getURL
-import tools.web_scraping.web_scrape as webScraper
-import tools.utils.utils as util
+from .tools.web_scraping import get_urls
+from .tools.web_scraping import web_scrape
+from .tools.utils import utils
 
 app = Flask(__name__)
 
@@ -16,17 +16,12 @@ def result():
 
     movie_name = f"${request.url.split('movie_name=')[1].strip()} related movie titles"
     print(movie_name)
-    urls = getURL.method2(movie_name)
-    print(urls)
+    urls = get_urls.method2(movie_name)
 
     # 2. Using the urls to scrape data, and get the data back.
-    data = util.removeEmptyList(webScraper.scrapeUrls(urls))
-    print(data)
+    data = utils.removeEmptyList(web_scrape.scrapeUrls(urls))
 
     # 3. Send data back and render it.
     return render_template('queries.html', data=data)
 
   return render_template('index.html')
-
-if __name__ == "__main__":
-  app.run(debug = True)
