@@ -2,3 +2,4 @@ requests==2.25.1
 Flask==2.1.2
 urllib3==1.26.9
 googlesearch-python==1.1.0
+requests-html==0.10.0
