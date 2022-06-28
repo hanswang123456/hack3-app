@@ -58,7 +58,7 @@ def testing2(url, type='h2'):
 
         name = ''
        
-        while cur[index].isalnum() or cur[index] in ['.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
+        while cur[index].isalnum() or cur[index] in ['—', '.', "'", ',', '!', '?', ';', ' ', '(', ')', '-', '&'] or ord(cur[index]) == 160:
 
             name += cur[index]
             index -= 1
@@ -215,13 +215,20 @@ def testing_final(url):
         if response:
             return res
 
-    res = testing(url)
+    if 'https://www.cbr.' in url:
+        res = testing_cbr(url)
+        response = check_valid_test(res)
+        if response:
+            return res
+
+    res = testing2(url)
 
     response = check_valid_test(res)
     if response:
 
         return res
-    res = testing2(url)
+
+    res = testing(url)
 
     response = check_valid_test(res)
     if response:
@@ -234,11 +241,6 @@ def testing_final(url):
 
         return res
 
-    if 'https://www.cbr.' in url:
-        res = testing_cbr(url)
-        response = check_valid_test(res)
-        if response:
-            return res
 
 def scrapeUrls(urls):
   data = set()
