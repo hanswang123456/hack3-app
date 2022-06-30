@@ -14,8 +14,7 @@ def result():
   if request.method == "GET":
     # 1. Get the urls from the urls scraper
 
-    movie_name = f"${request.url.split('movie_name=')[1].strip()} related movie titles"
-    print(movie_name)
+    movie_name = f"${request.url.split('movie_name=')[1].strip()} titles"
     urls = get_urls.method2(movie_name)
 
     # 2. Using the urls to scrape data, and get the data back.

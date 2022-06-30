@@ -229,5 +229,4 @@ def scrapeUrls(urls):
 
   return data
 
-
-
+# print(sum([testing('https://www.gamersdecide.com/articles/anime-with-cool-mc') for i in range(10)]) / 10)
