@@ -3,16 +3,9 @@ import bs4
 from time import time
 
 def base_testing(url):
-    headers = requests.utils.default_headers()
-
-    headers.update(
-        {
-            'User-Agent': 'My User Agent 1.0',
-        }
-    )
-
-    result = requests.get(url, headers=headers)
-    
+    start = time()
+    result = requests.get(url)
+    print(time() - start)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
     return soup
@@ -164,7 +157,9 @@ def testing_imdb(terms):
     return terms_list[:-3]
 
 def testing_final(url):
+    
     soup = base_testing(url)
+    
     if 'https://www.fandomspot.' in url:
         terms_h3 = soup.select('h3')
         res = testing_fandom(terms_h3)
@@ -229,4 +224,4 @@ def scrapeUrls(urls):
 
   return data
 
-# print(sum([testing('https://www.gamersdecide.com/articles/anime-with-cool-mc') for i in range(10)]) / 10)
+
