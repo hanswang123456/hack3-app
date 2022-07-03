@@ -13,7 +13,10 @@ def base_testing(url):
     )
 
     result = requests.get(url, headers=headers)
-    print(time() - start)
+    end = time() - start 
+    if end > 3:
+        print(url)
+    print(end)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
     return soup
