@@ -177,10 +177,10 @@ def testing_final(url):
         else:
             terms_h3 = soup.select('h3')
             if 'https://www.fandomspot.' in url:
-                func = testing_fandom
+                res, response = testing_fandom(terms_h3)
             else:
-                func = testing_imdb
-            res, response = func(terms_h3)
+                res, response = testing_imdb(terms_h3)
+
         if response:
             return res
 

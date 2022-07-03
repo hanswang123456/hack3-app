@@ -20,5 +20,5 @@ from time import time
 
 
 # print(time() - start)
-urls = method2('anime cool mc')
+urls = method2('top 10 basketball players names')
 print(scrapeUrls(urls))

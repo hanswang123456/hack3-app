@@ -41,3 +41,26 @@ def give_movie_data(name):
     if id:
         return give_data(id)
 
+functions_dict = {
+    'Movie' : give_movie_data,
+    'Series' : give_tvshow_data
+}
+
+def base_filter(results, type, *filter_type):
+
+    final_results = []
+    function = functions_dict[type]
+    for result in results:
+        data = function(result)
+        if filter_type[0] == 'year':
+            year = int(data['releaseDate'][:4])
+            condition = filter_type[1] <= year <= filter_type[2]
+        elif filter_type[0] == 'genre':
+            cur_genres = data['genres'].split(', ')
+            condition = filter_type[1] in cur_genres
+        else:
+            cur_age_group = data['contentRating']
+            condition = cur_age_group == filter_type[1]
+        if condition:
+            final_results.append(result)
+    return final_results
