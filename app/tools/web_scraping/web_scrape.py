@@ -1,9 +1,12 @@
+from platformdirs import site_config_path
 import requests
 import bs4
 from time import time
+from concurrent.futures import as_completed
+from requests_futures import sessions
 
-def base_testing(url):
-    start = time()
+def base_testingv3(url):
+
     headers = requests.utils.default_headers()
 
     headers.update(
@@ -13,16 +16,15 @@ def base_testing(url):
     )
 
     result = requests.get(url, headers=headers)
-    end = time() - start 
-    if end > 3:
-        print(url)
-    print(end)
-    soup = bs4.BeautifulSoup(result.text, 'lxml')
+    
 
-    return soup
+
+    return result.text
+
 
 def check_valid_test(results):
     if len(results) < 5:
+    
         return False
     short_count = 0
 
@@ -33,6 +35,7 @@ def check_valid_test(results):
         #     return False
 
     if short_count > 4:
+    
         return False
     return True
 
@@ -165,12 +168,11 @@ def testing_imdb(terms):
                     break
 
         names_list.append(name[::-1].strip())
-
+    
     return names_list[:-3], check_valid_test(names_list[:-3])
 
-def testing_final(url):
+def testing_final(soup, url):
     
-    soup = base_testing(url)
 
     if 'https://www.fandomspot.' in url or 'https://www.imdb' in url or 'https://www.cbr.' in url:
 
@@ -210,15 +212,32 @@ def testing_final(url):
         return res
 
 
-def scrapeUrls(urls):
-  data = set()
+def base_testing(sites):
+    data = set()
+    headers = requests.utils.default_headers()
 
-  for u in urls:
-    cur_data = testing_final(u)
-    if cur_data:
-        data.add(tuple(cur_data))
+    headers.update(
+        {
+            'User-Agent': 'My User Agent 1.0',
+        }
+    )
 
-  return data
-
-
+    with sessions.FuturesSession() as session:
+        
+        futures = [session.get(site, headers=headers) for site in sites]
+        
+        for future in as_completed(futures):
+            
+            resp = future.result()
+            site = str(resp.url)
+            soup = bs4.BeautifulSoup(resp.text, 'lxml')
+       
+            cur_data = testing_final(soup, site)
+            if cur_data:
+                data.add(tuple(cur_data))
+            else:
+                print(site)
+              
+      
+        return data
 

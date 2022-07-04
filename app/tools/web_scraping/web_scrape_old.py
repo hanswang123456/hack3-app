@@ -4,7 +4,15 @@ from time import time
 
 def base_testing(url):
     start = time()
-    result = requests.get(url)
+    headers = requests.utils.default_headers()
+
+    headers.update(
+        {
+            'User-Agent': 'My User Agent 1.0',
+        }
+    )
+
+    result = requests.get(url, headers=headers)
     print(time() - start)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
@@ -127,7 +135,7 @@ def testing_cbr(terms):
     return names_list
 
 def testing_imdb(terms):
-
+    print(terms)
     terms_list = []
 
     for i in terms:
@@ -159,58 +167,44 @@ def testing_imdb(terms):
 def testing_final(url):
     
     soup = base_testing(url)
+    terms = ('', '')
     
-    if 'https://www.fandomspot.' in url:
-        terms_h3 = soup.select('h3')
-        res = testing_fandom(terms_h3)
-        response = check_valid_test(res)
+        
+    if 'https://www.fandomspot.' in url or 'https://www.imdb' in url or 'https://www.cbr.' in url:
+
+        if 'https://www.cbr.' in url:
+            terms = (soup.select('h2'), 'h2')
+            res, response = testing_cbr(terms)
+        else:
+            terms = (soup.select('h3'), 'h3')
+            if 'https://www.fandomspot.' in url:
+                res, response = testing_fandom(terms)
+            else:
+                res, response = testing_imdb(terms)
+
         if response:
             return res
+    # alternatively try except can be used to check existence of h2 and h3 terms
+    final = terms[0]
+    if terms[1] != 'h2':
+        final = soup.select('h2')
 
-    elif 'https://www.imdb' in url:
-        terms_h3 = soup.select('h3')
-        res = testing_imdb(terms_h3)
-        response = check_valid_test(res)
-        if response:
-            return res
 
-    elif 'https://www.cbr.' in url:
-        terms_h2 = soup.select('h2')
-        res = testing_cbr(terms_h2)
-        response = check_valid_test(res)
-        if response:
-            return res
-
-    try:
-        terms_h2
-    except:
-        terms_h2 = soup.select('h2')
-    
-
-    res = testing2(terms_h2)
-
-    response = check_valid_test(res)
+    res, response = testing2(final)
     if response:
-
         return res
 
-    res = testing(soup)
-
-    response = check_valid_test(res)
+    res, response = testing(soup)
     if response:
-
         return res
     
-    try:
-        terms_h3
-    except:
-        terms_h3 = soup.select('h3')
+    final = terms[0]
+    if terms[1] != 'h3':
+        final = soup.select('h3')
 
-    res = testing2(terms_h3)
-
-    response = check_valid_test(res)
+    res, response = testing2(final)
+    
     if response:
-
         return res
 
 
@@ -225,3 +219,10 @@ def scrapeUrls(urls):
   return data
 
 
+
+url = 'https://www.imdb.com/search/title/?genres=action&explore=title_type,genres&sort=alpha,asc'
+soup = base_testing(url)
+
+
+terms_h3 = soup.select('h3')
+print(testing_imdb(terms_h3))

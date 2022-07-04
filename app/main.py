@@ -19,6 +19,7 @@ def result():
 
     # 2. Using the urls to scrape data, and get the data back.
     data = utils.removeEmptyList(web_scrape.scrapeUrls(urls))
+    print(data)
 
     # 3. Send data back and render it.
     return render_template('queries.html', data=data)

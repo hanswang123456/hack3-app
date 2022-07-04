@@ -20,5 +20,8 @@ from time import time
 
 
 # print(time() - start)
-urls = method2('top 10 basketball players names')
-print(scrapeUrls(urls))
+start = time()
+urls = method2('best horror movies with love triangle')
+print(urls)
+print(base_testing(urls))
+print(time() - start)
