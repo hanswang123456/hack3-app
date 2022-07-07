@@ -13,8 +13,6 @@ total2 = 0
 total_url = 0
 max1 = 0
 max2 = 0
-count1 = 0
-count2 = 0
 initial = time()
 for i in big:
     key_word = i[1]
@@ -24,14 +22,14 @@ for i in big:
         diff_url = time() - cur
         total_url += diff_url
         cur = time()
-        count1 += web_scrape.scrapeUrls(urls)
+        web_scrape.scrapeUrls(urls)
         dif1 = time() - cur
      
         if dif1 > max1:
             max1 = dif1
         total1 += dif1
         cur = time() 
-        count2 += web_scrape_old.scrapeUrls(urls)
+        web_scrape_old.scrapeUrls(urls)
         dif2 = time() - cur
        
         if dif2 > max2:
@@ -41,6 +39,5 @@ print(time() - initial)
 print(total_url / 65)
 print(max1)
 print(max2)
-print(count1, count2)
-print(total1 / (65 - count1))
-print(total2 / (65 - count2))
+print(total1 / (65))
+print(total2 / (65))
