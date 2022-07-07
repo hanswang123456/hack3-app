@@ -3,7 +3,7 @@ import bs4
 from time import time
 
 def base_testing(url):
-    start = time()
+
     headers = requests.utils.default_headers()
 
     headers.update(
@@ -11,38 +11,55 @@ def base_testing(url):
             'User-Agent': 'My User Agent 1.0',
         }
     )
+    try:
+        result = requests.get(url, headers=headers)
+    except:
+        return
 
-    result = requests.get(url, headers=headers)
-    print(time() - start)
     soup = bs4.BeautifulSoup(result.text, 'lxml')
 
     return soup
+
+def check_valid_test(results):
+    if len(results) < 5:
+        return False
+    short_count = 0
+
+    for i in results:
+        if len(i) < 3:
+            short_count += 1
+        # if len(i) > 100:
+        #     return False
+
+    if short_count > 4:
+        return False
+    return True
 
 def testing(soup):
 
     
     names_list = []
-    terms_list = str(soup.select('body')[0])
+    terms = str(soup.select('body')[0])
 
-    for i in range(len(terms_list)):
+    for i in range(len(terms)):
 
-        if terms_list[i] == '.':
+        if terms[i] == '.':
 
-            if terms_list[i-1].isnumeric() and terms_list[i+1] == ' ' and (terms_list[i-2] == '>' or terms_list[i-3] == '>'):
+            if terms[i-1].isnumeric() and terms[i+1] == ' ' and (terms[i-2] == '>' or terms[i-3] == '>'):
 
                 cur_index = i + 2
                 anime_name = ''
-                while terms_list[cur_index] != '<':
-                    anime_name += terms_list[cur_index]
+                while terms[cur_index] != '<':
+                    anime_name += terms[cur_index]
                     cur_index += 1
                 names_list.append(anime_name.strip())
-    return names_list
+    return names_list, check_valid_test(names_list)
 
 
 def testing2(terms):
 
 
-    terms_list = []
+    names_list = []
 
     for i in terms:
         cur = str(i)
@@ -68,28 +85,13 @@ def testing2(terms):
             if name[1] == '.':
 
                 name = name[3:]
-        terms_list.append(name.strip())
+        names_list.append(name.strip())
 
-    return terms_list
-
-def check_valid_test(results):
-    if len(results) < 5:
-        return False
-    short_count = 0
-
-    for i in results:
-        if len(i) < 3:
-            short_count += 1
-        # if len(i) > 100:
-        #     return False
-
-    if short_count > 4:
-        return False
-    return True
+    return names_list, check_valid_test(names_list)
 
 def testing_fandom(terms):
 
-    terms_list = []
+    names_list = []
 
     for i in terms:
 
@@ -106,11 +108,12 @@ def testing_fandom(terms):
             name += cur[index]
             index += 1
 
-        terms_list.append(name[::-1].strip())
+        names_list.append(name[::-1].strip())
 
-    return terms_list
+    return names_list, check_valid_test(names_list)
 
 def testing_cbr(terms):
+
     names_list = []
     for term in terms:
         term = str(term)
@@ -132,11 +135,11 @@ def testing_cbr(terms):
         name = name.replace(u'&amp;', u'and')
         names_list.append(name)
 
-    return names_list
+    return names_list, check_valid_test(names_list)
 
 def testing_imdb(terms):
-    print(terms)
-    terms_list = []
+
+    names_list = []
 
     for i in terms:
 
@@ -160,37 +163,37 @@ def testing_imdb(terms):
                 if index >= len(cur):
                     break
 
-        terms_list.append(name[::-1].strip())
+        names_list.append(name[::-1].strip())
 
-    return terms_list[:-3]
+    return names_list[:-3], check_valid_test(names_list[:-3])
 
 def testing_final(url):
     
     soup = base_testing(url)
-    terms = ('', '')
-    
-        
+    if not soup:
+        return 
+
     if 'https://www.fandomspot.' in url or 'https://www.imdb' in url or 'https://www.cbr.' in url:
 
         if 'https://www.cbr.' in url:
-            terms = (soup.select('h2'), 'h2')
-            res, response = testing_cbr(terms)
+            terms_h2 = soup.select('h2')
+            res, response = testing_cbr(terms_h2)
         else:
-            terms = (soup.select('h3'), 'h3')
+            terms_h3 = soup.select('h3')
             if 'https://www.fandomspot.' in url:
-                res, response = testing_fandom(terms)
+                res, response = testing_fandom(terms_h3)
             else:
-                res, response = testing_imdb(terms)
+                res, response = testing_imdb(terms_h3)
 
         if response:
             return res
-    # alternatively try except can be used to check existence of h2 and h3 terms
-    final = terms[0]
-    if terms[1] != 'h2':
-        final = soup.select('h2')
 
-
-    res, response = testing2(final)
+    try:
+        terms_h2
+    except:
+        terms_h2 = soup.select('h2')
+    
+    res, response = testing2(terms_h2)
     if response:
         return res
 
@@ -198,31 +201,23 @@ def testing_final(url):
     if response:
         return res
     
-    final = terms[0]
-    if terms[1] != 'h3':
-        final = soup.select('h3')
+    try:
+        terms_h3
+    except:
+        terms_h3 = soup.select('h3')
 
-    res, response = testing2(final)
-    
+    res, response = testing2(terms_h3)
     if response:
         return res
 
 
 def scrapeUrls(urls):
   data = set()
-
+ 
   for u in urls:
     cur_data = testing_final(u)
     if cur_data:
         data.add(tuple(cur_data))
+   
 
-  return data
-
-
-
-url = 'https://www.imdb.com/search/title/?genres=action&explore=title_type,genres&sort=alpha,asc'
-soup = base_testing(url)
-
-
-terms_h3 = soup.select('h3')
-print(testing_imdb(terms_h3))
+  return count

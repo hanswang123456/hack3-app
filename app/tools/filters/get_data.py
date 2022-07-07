@@ -65,23 +65,5 @@ def base_filter(results, type, *filter_type):
             final_results.append(result)
     return final_results
 
-# def base_filterv2(results, type, func, *args):
 
-#     final_results = []
-#     function = functions_dict[type]
-#     for result in results:
-#         data = function(result)
-#         condition = func(data, *args)
-#         if condition:
-#             final_results.append(result)
-#     return final_results
-
-# # sample specific filter funcs
-# def year_filterv2(data, lower_bound, upper_bound):
-#     year = int(data['releaseDate'][:4])
-#     condition = lower_bound <= year <= upper_bound
-#     return condition
-
-# def match_year_tvshows(lower_bound, upper_bound, results):
-#     return base_filterv2(results, 'Series', year_filterv2, lower_bound, upper_bound)
 

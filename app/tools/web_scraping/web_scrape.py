@@ -5,21 +5,6 @@ from time import time
 from concurrent.futures import as_completed
 from requests_futures import sessions
 
-def base_testingv3(url):
-
-    headers = requests.utils.default_headers()
-
-    headers.update(
-        {
-            'User-Agent': 'My User Agent 1.0',
-        }
-    )
-
-    result = requests.get(url, headers=headers)
-    
-
-
-    return result.text
 
 
 def check_valid_test(results):
@@ -43,7 +28,9 @@ def testing(soup):
 
     
     names_list = []
+    
     terms = str(soup.select('body')[0])
+
 
     for i in range(len(terms)):
 
@@ -212,7 +199,8 @@ def testing_final(soup, url):
         return res
 
 
-def base_testing(sites):
+def scrapeUrls(sites):
+
     data = set()
     headers = requests.utils.default_headers()
 
@@ -227,17 +215,57 @@ def base_testing(sites):
         futures = [session.get(site, headers=headers) for site in sites]
         
         for future in as_completed(futures):
-            
-            resp = future.result()
+            try:
+                resp = future.result()
+            except:
+                
+                continue
             site = str(resp.url)
             soup = bs4.BeautifulSoup(resp.text, 'lxml')
-       
+            
             cur_data = testing_final(soup, site)
             if cur_data:
                 data.add(tuple(cur_data))
-            else:
-                print(site)
+   
               
       
         return data
 
+# def scrapeUrls(sites):
+#     start = time()
+#     total1 = 0
+#     total2 = 0
+#     data = set()
+#     headers = requests.utils.default_headers()
+
+#     headers.update(
+#         {
+#             'User-Agent': 'My User Agent 1.0',
+#         }
+#     )
+
+#     session = sessions.FuturesSession()
+        
+#     futures = [session.get(site, headers=headers) for site in sites]
+#     completed = futures
+#     print(time() - start)
+
+#     for future in completed:
+        
+#         cur = time()
+#         resp = future.result()
+#         site = str(resp.url)
+#         soup = bs4.BeautifulSoup(resp.text, 'lxml')
+#         end = time()
+#         total1 += (end - cur)
+
+#         cur2 = time()
+#         cur_data = testing_final(soup, site)
+#         if cur_data:
+#             data.add(tuple(cur_data))
+#         end = time()
+#         total2 += (end - cur2)
+
+            
+    
+#     return total1, total2
