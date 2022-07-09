@@ -4,8 +4,10 @@ def give_id(type : str, movie_name : str):
     base_url = f'https://imdb-api.com/en/api/Search{type}/k_2n1kq7r4/'
     movie_response = requests.get(base_url + movie_name)
     data = movie_response.json()
-    print(data)
+
     def match_names(name1, results):
+        if len(results) == 1:
+            return results[0]
         name1 = ''.join(e for e in name1 if e.isalnum()).lower()
         max_match = [None, 0]
         for result in results:

@@ -5,6 +5,24 @@ from time import time
 from concurrent.futures import as_completed
 from requests_futures import sessions
 
+def clean_name(name):
+    for i in range(len(name)):
+        if name[i:i+4].lower() == 'from':
+            return name[i+5:]
+        if name[i] == '(':
+            new_name = ''
+            index = i + 1
+            while index < len(name) and name[index] != ')':
+                new_name += name[index]
+                index += 1
+            if new_name.isdigit():
+                return name[:i-1]
+            else:
+                return new_name
+        if name[i] == ':':
+            return name[:i]
+    return name
+
 
 
 def check_valid_test(results):
@@ -57,7 +75,13 @@ def testing2(terms):
         for j in range(len(str(i))):
             if cur[j:j+3] == '</h':
                 index = j - 1
-                break
+                if cur[j-1] != '>':
+                    
+                    break
+                else:
+                    while cur[index] != '<':
+                        index -= 1
+                    index -= 1
 
         name = ''
        
@@ -225,8 +249,13 @@ def scrapeUrls(sites):
             
             cur_data = testing_final(soup, site)
             if cur_data:
+                
                 data.add(tuple(cur_data))
-   
+            # else:
+            #     print(site)
+     
+        data = [[clean_name(j) for j in i] for i in data]
+        
               
       
         return data
@@ -269,3 +298,5 @@ def scrapeUrls(sites):
             
     
 #     return total1, total2
+
+

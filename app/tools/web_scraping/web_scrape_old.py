@@ -66,7 +66,13 @@ def testing2(terms):
         for j in range(len(str(i))):
             if cur[j:j+3] == '</h':
                 index = j - 1
-                break
+                if cur[j-1] != '>':
+                    
+                    break
+                else:
+                    while cur[index] != '<':
+                        index -= 1
+                    index -= 1
 
         name = ''
        
@@ -220,4 +226,5 @@ def scrapeUrls(urls):
         data.add(tuple(cur_data))
    
 
-  return count
+  return data
+
