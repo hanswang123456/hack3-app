@@ -42,27 +42,22 @@ from time import time
 # print(total1 / (65))
 # print(total2 / (65))
 
-movie_queries = [['alien'], 'movies']
+movie_queries = [['spine chilling', 'sexual', 'fantasy', 'sad'], 'movies']
 anime_queries = [['badass mc', 'cool mc', 'bitersweet ending', 'early romance'], 'anime']
 tvshow_queries = [['bitersweet ending', 'happy ending', 'love triangle', 'high school'], 'tv shows']
-big = [movie_queries]
+big = [movie_queries, anime_queries, tvshow_queries]
 
-total1 = 0
-total2 = 0
-total_url = 0
-max1 = 0
-max2 = 0
 initial = time()
 for i in big:
     key_word = i[1]
     for query in i[0]:
         start = time()
-        urls = method2(f'{query} {key_word}')
-        print(urls)
+        urls = method2(f'best {query} {key_word}')
+        
         data = web_scrape.scrapeUrls(urls)
-        print(data, '\n\n')
-        # print(time() - start)
-        # print(len(data))
-        # print(data, '\n\n')
 
-      
+        print(time() - start, '\n\n')
+
+        print(data, '\n\n')
+
+

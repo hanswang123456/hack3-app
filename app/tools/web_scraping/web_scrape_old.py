@@ -81,6 +81,35 @@ def testing2(terms):
             name += cur[index]
             index -= 1
         name = name[::-1]
+       
+        if len(name) > 2:
+            if name[2] == '.':
+                name = name[4:]
+
+        if len(name) > 1:
+
+            if name[1] == '.':
+
+                name = name[3:]
+        names_list.append(name.strip())
+
+    return names_list, check_valid_test(names_list)
+
+def testing2v2(terms):
+
+
+    names_list = []
+
+    for term in terms:
+        term = str(term)
+        name = ''
+
+        for i in range(len(term)):
+            if term[i] == '>':
+                index = i + 1
+                while index < len(term) and term[index] != '<':
+                    name += term[index]
+                    index += 1
 
         if len(name) > 2:
             if name[2] == '.':

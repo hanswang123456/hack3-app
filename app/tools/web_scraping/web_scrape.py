@@ -6,6 +6,12 @@ from concurrent.futures import as_completed
 from requests_futures import sessions
 
 def clean_name(name):
+    if len(name) > 1 and (name[0].isdigit() or (name[0] == '(' and name[1].isdigit())):
+        index = 1
+        while index < len(name) and not name[index].isalpha():
+            index += 1
+        name = name[index:]
+
     for i in range(len(name)):
         if name[i:i+4].lower() == 'from':
             return name[i+5:]
@@ -19,9 +25,12 @@ def clean_name(name):
                 return name[:i-1]
             else:
                 return new_name
-        if name[i] == ':':
+        if name[i] in [':', '-']:
             return name[:i]
+        
+        
     return name
+
 
 
 
@@ -34,8 +43,8 @@ def check_valid_test(results):
     for i in results:
         if len(i) < 3:
             short_count += 1
-        # if len(i) > 100:
-        #     return False
+        if len(i) > 100:
+            return False
 
     if short_count > 4:
     
@@ -90,6 +99,35 @@ def testing2(terms):
             name += cur[index]
             index -= 1
         name = name[::-1]
+
+        if len(name) > 2:
+            if name[2] == '.':
+                name = name[4:]
+
+        if len(name) > 1:
+
+            if name[1] == '.':
+
+                name = name[3:]
+        names_list.append(name.strip())
+
+    return names_list, check_valid_test(names_list)
+
+def testing2v2(terms):
+
+
+    names_list = []
+
+    for term in terms:
+        term = str(term)
+        name = ''
+
+        for i in range(len(term)):
+            if term[i] == '>':
+                index = i + 1
+                while index < len(term) and term[index] != '<':
+                    name += term[index]
+                    index += 1
 
         if len(name) > 2:
             if name[2] == '.':
@@ -205,7 +243,7 @@ def testing_final(soup, url):
     except:
         terms_h2 = soup.select('h2')
     
-    res, response = testing2(terms_h2)
+    res, response = testing2v2(terms_h2)
     if response:
         return res
 
@@ -218,7 +256,7 @@ def testing_final(soup, url):
     except:
         terms_h3 = soup.select('h3')
 
-    res, response = testing2(terms_h3)
+    res, response = testing2v2(terms_h3)
     if response:
         return res
 
@@ -254,7 +292,7 @@ def scrapeUrls(sites):
             # else:
             #     print(site)
      
-        data = [[clean_name(j) for j in i] for i in data]
+        data = [[clean_name(j).strip('\'"') for j in i] for i in data]
         
               
       
