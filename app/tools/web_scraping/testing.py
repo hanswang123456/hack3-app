@@ -42,10 +42,10 @@ from time import time
 # print(total1 / (65))
 # print(total2 / (65))
 
-movie_queries = [['spine chilling', 'sexual', 'fantasy', 'sad'], 'movies']
-anime_queries = [['badass mc', 'cool mc', 'bitersweet ending', 'early romance'], 'anime']
+movie_queries = [['religious', 'dog', 'depressing', 'uplifting'], 'movies']
+anime_queries = [['science fell in love'], 'anime']
 tvshow_queries = [['bitersweet ending', 'happy ending', 'love triangle', 'high school'], 'tv shows']
-big = [movie_queries, anime_queries, tvshow_queries]
+big = [movie_queries]
 
 initial = time()
 for i in big:

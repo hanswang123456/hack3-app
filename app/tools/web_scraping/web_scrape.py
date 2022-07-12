@@ -1,37 +1,47 @@
-from platformdirs import site_config_path
 import requests
 import bs4
-from time import time
 from concurrent.futures import as_completed
 from requests_futures import sessions
+from validation_lists import exceptions
 
 def clean_name(name):
-    if len(name) > 1 and (name[0].isdigit() or (name[0] == '(' and name[1].isdigit())):
+    
+    if len(name) > 2 and ((name[0].isdigit() and not name[1].isalpha()) or (name[0] in ['(', '#'] and name[1].isdigit() and not name[2].isalpha())):
         index = 1
         while index < len(name) and not name[index].isalpha():
             index += 1
         name = name[index:]
+    if len(name) > 6 and name[-4:].isdigit() and name[-6] == ',':
+        name = name[:-6]
+        
 
     for i in range(len(name)):
         if name[i:i+4].lower() == 'from':
-            return name[i+5:]
+            name = name[i+5:]
+            break
         if name[i] == '(':
             new_name = ''
             index = i + 1
             while index < len(name) and name[index] != ')':
                 new_name += name[index]
                 index += 1
-            if new_name.isdigit():
-                return name[:i-1]
+            if new_name[0].isdigit():
+               name = name[:i-1]
             else:
-                return new_name
-        if name[i] in [':', '-']:
-            return name[:i]
-        
-        
+                name = new_name
+            break
+    name = name.strip('\'"‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
+   
+    for i in range(len(name)):
+
+        if name[i] == ':':
+          
+            if name.lower() not in exceptions:
+             
+                name = name[:i]
+                break
+    
     return name
-
-
 
 
 def check_valid_test(results):
@@ -184,8 +194,7 @@ def testing_cbr(terms):
 
                 name += term[index]
                 index += 1
-        name = name.replace(u'\xa0', u' ')
-        name = name.replace(u'&amp;', u'and')
+
         names_list.append(name)
 
     return names_list, check_valid_test(names_list)
@@ -291,8 +300,8 @@ def scrapeUrls(sites):
                 data.add(tuple(cur_data))
             # else:
             #     print(site)
-     
-        data = [[clean_name(j).strip('\'"') for j in i] for i in data]
+        
+        data = [[clean_name(j) for j in i] for i in data]
         
               
       
