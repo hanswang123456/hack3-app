@@ -3,8 +3,11 @@ import bs4
 from concurrent.futures import as_completed
 from requests_futures import sessions
 from validation_lists import exceptions
+from validation_database import movies_db, anime_db, tvshows_db
 
 def clean_name(name):
+    
+    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
     
     if len(name) > 2 and ((name[0].isdigit() and not name[1].isalpha()) or (name[0] in ['(', '#'] and name[1].isdigit() and not name[2].isalpha())):
         index = 1
@@ -16,7 +19,7 @@ def clean_name(name):
         
 
     for i in range(len(name)):
-        if name[i:i+4].lower() == 'from':
+        if name[i:i+4].lower() == 'from' and name.lower() not in exceptions:
             name = name[i+5:]
             break
         if name[i] == '(':
@@ -30,7 +33,7 @@ def clean_name(name):
             else:
                 name = new_name
             break
-    name = name.strip('\'"‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
+    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
    
     for i in range(len(name)):
 
@@ -40,7 +43,51 @@ def clean_name(name):
              
                 name = name[:i]
                 break
+    name = name.lower()
+
+    if name in movies_db or name in anime_db or name in tvshows_db:
+        return name
+
+def clean_namev2(name):
     
+    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
+    
+    if len(name) > 2 and ((name[0].isdigit() and not name[1].isalpha()) or (name[0] in ['(', '#'] and name[1].isdigit() and not name[2].isalpha())):
+        index = 1
+        while index < len(name) and not name[index].isalpha():
+            index += 1
+        name = name[index:]
+    if len(name) > 6 and name[-4:].isdigit() and name[-6] == ',':
+        name = name[:-6]
+        
+
+    for i in range(len(name)):
+        if name[i:i+4].lower() == 'from' and name.lower() not in exceptions:
+            name = name[i+5:]
+            break
+        if name[i] == '(':
+            new_name = ''
+            index = i + 1
+            while index < len(name) and name[index] != ')':
+                new_name += name[index]
+                index += 1
+            if new_name[0].isdigit():
+               name = name[:i-1]
+            else:
+                name = new_name
+            break
+    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
+   
+    for i in range(len(name)):
+
+        if name[i] == ':':
+          
+            if name.lower() not in exceptions:
+             
+                name = name[:i]
+                break
+
+    name = name.lower()
     return name
 
 
@@ -124,8 +171,6 @@ def testing2(terms):
     return names_list, check_valid_test(names_list)
 
 def testing2v2(terms):
-
-
     names_list = []
 
     for term in terms:
@@ -297,15 +342,14 @@ def scrapeUrls(sites):
             cur_data = testing_final(soup, site)
             if cur_data:
                 
-                data.add(tuple(cur_data))
+                for j in cur_data:
+                    res = clean_name(j)
+                    if res:
+                        data.add(res.title())
             # else:
             #     print(site)
-        
-        data = [[clean_name(j) for j in i] for i in data]
-        
-              
-      
-        return data
+    
+        return list(data)
 
 # def scrapeUrls(sites):
 #     start = time()

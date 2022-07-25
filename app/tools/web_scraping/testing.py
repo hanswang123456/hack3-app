@@ -3,6 +3,7 @@ import web_scrape
 from get_urls import *
 from time import time
 
+
 # movie_queries = [['horror', 'action', 'romance', 'alien', 'fantasy'] * 5, 'movies']
 # anime_queries = [['badass mc', 'cool mc', 'bitersweet ending', 'early romance'] * 5, 'anime']
 # tvshow_queries = [['bitersweet ending', 'happy ending', 'love triangle', 'high school'] * 5, 'tv shows']
@@ -45,19 +46,19 @@ from time import time
 movie_queries = [['religious', 'dog', 'depressing', 'uplifting'], 'movies']
 anime_queries = [['science fell in love'], 'anime']
 tvshow_queries = [['bitersweet ending', 'happy ending', 'love triangle', 'high school'], 'tv shows']
-big = [movie_queries]
+big = [anime_queries]
 
 initial = time()
 for i in big:
     key_word = i[1]
     for query in i[0]:
         start = time()
-        urls = method2(f'best {query} {key_word}')
+        urls = method2(f'anime like slime tensei')
         
+        print(urls)
         data = web_scrape.scrapeUrls(urls)
 
         print(time() - start, '\n\n')
 
         print(data, '\n\n')
-
 

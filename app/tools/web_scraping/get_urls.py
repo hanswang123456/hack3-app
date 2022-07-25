@@ -27,7 +27,8 @@ to_avoid = (
     'https://www.bilibili.',
     'https://www.ranker.',
     'https://play.google.',
-    'https://manga.tokyo')
+    'https://manga.tokyo',
+    'https://guessanime.')
 
 def method1(query):
     links = []
