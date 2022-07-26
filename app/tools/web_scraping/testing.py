@@ -1,6 +1,5 @@
-import web_scrape_old
 import web_scrape
-from get_urls import *
+from get_urls import method2
 from time import time
 
 
