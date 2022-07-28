@@ -1,6 +1,6 @@
 import requests
 import bs4
-from validation_lists import letter_map
+from .validation_lists import letter_map
 from time import time, sleep
 from concurrent.futures import as_completed
 from requests_futures import sessions
@@ -39,7 +39,8 @@ def scrape_imdb(type, start, stop):
         try:
             result = requests.get(url, headers=headers)
         except:
-            return
+            num += 50
+            continue
 
         soup = bs4.BeautifulSoup(result.text, 'lxml')
 
@@ -257,15 +258,16 @@ def scrape_english_animes(start, stop, seen=[]):
 
 # scrape_english_animes(37000, 37999)
 # first 25000 done for other one
-# 32 - 50k done
+# 0 - 50k done
 # scrape_english_animes(38000, 39999)
 
 def scrape_english_animesv2(start, stop, seen=[]):
 
     urls = [f'https://myanimelist.net/anime/{i}' for i in range(start, stop+1) if i not in seen]
-
-    for url in urls:
-
+    for i in range(len(urls)):
+        
+        url = urls[i]
+        print(url)
         headers = requests.utils.default_headers()
 
         headers.update(
@@ -276,7 +278,7 @@ def scrape_english_animesv2(start, stop, seen=[]):
         try:
             result = requests.get(url, headers=headers)
         except:
-            return
+            continue
 
         soup = bs4.BeautifulSoup(result.text, 'lxml')
 
@@ -284,9 +286,9 @@ def scrape_english_animesv2(start, stop, seen=[]):
         terms = str(soup.select('head')[0])
         if "{action: 'submit'}" in terms:
             print('TRY AGAIN')
-            print(url)
             break
-            
+
+        
         
         for i in range(len(terms)):
             
@@ -300,7 +302,7 @@ def scrape_english_animesv2(start, stop, seen=[]):
                     index -= 1
                 
                 
-                name = name[::-1].replace(u'\xa0', u' ').replace(u'&amp;', u'and').replace('&#039;', "'").replace('&quot;', '"').lower()
+                name = name[::-1].replace("'", '"').replace(u'\xa0', u' ').replace(u'&amp;', u'and').replace('&#039;', "'").replace('&quot;', '"').lower()
                 name = name.translate(letter_map)
              
 
@@ -314,7 +316,47 @@ def scrape_english_animesv2(start, stop, seen=[]):
                         pass
                     f.close()
                 break
+    
+    num = ''
+    index = -1
+    while url[index].isdigit():
+        num += url[index]
+        index -= 1
+    
+    return int(num[::-1])
+
+
+# animes_db = set(open('app/tools/web_scraping/animes.txt').read().split('|!? '))
+# new = set()
+# for i in animes_db:
+#     i = i.replace('"', "'")
+#     new.add(i)
+# final = set()
+# for i in new:
+#     final.add(i)
+#     if ':' in i:
+#         index = i.index(':')
+#         final.add(i[:index])
+#     new_name = ""
+#     for letter in i:
+#         if letter not in ['!', '?', '.', '']:
+#             new_name += letter
+#     final.add(new_name)
+    
+# for name in final:
+#     with open(f'app/tools/web_scraping/final_animes.txt', 'a') as f:
+#         try:
+#             f.write(f'{name}|!? ')
+#         except:
+#             print(name)
+
+#         f.close()
 
 
 
-scrape_english_animes(30000, 31999)
+movies_db = set(open('app/tools/web_scraping/movie.txt').read().split(', '))
+
+
+tvshows_db = set(open('app/tools/web_scraping/tvshow.txt').read().split(', '))
+
+anime_db = set(open('app/tools/web_scraping/final_animes.txt').read().split('|!? '))

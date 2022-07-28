@@ -2,8 +2,14 @@ import requests
 import bs4
 from concurrent.futures import as_completed
 from requests_futures import sessions
-from validation_lists import exceptions
-from validation_database import movies_db, anime_db, tvshows_db
+from .validation_lists import exceptions
+from .validation_database import movies_db, anime_db, tvshows_db
+
+def titleize(name):
+    list_name = name.split(' ')
+    for i in range(len(list_name)):
+        list_name[i] = list_name[i][0].upper() + list_name[i][1:]
+    return ' '.join(list_name)
 
 def clean_name(name):
     
@@ -47,48 +53,8 @@ def clean_name(name):
 
     if name in movies_db or name in anime_db or name in tvshows_db:
         return name
-
-def clean_namev2(name):
-    
-    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
-    
-    if len(name) > 2 and ((name[0].isdigit() and not name[1].isalpha()) or (name[0] in ['(', '#'] and name[1].isdigit() and not name[2].isalpha())):
-        index = 1
-        while index < len(name) and not name[index].isalpha():
-            index += 1
-        name = name[index:]
-    if len(name) > 6 and name[-4:].isdigit() and name[-6] == ',':
-        name = name[:-6]
-        
-
-    for i in range(len(name)):
-        if name[i:i+4].lower() == 'from' and name.lower() not in exceptions:
-            name = name[i+5:]
-            break
-        if name[i] == '(':
-            new_name = ''
-            index = i + 1
-            while index < len(name) and name[index] != ')':
-                new_name += name[index]
-                index += 1
-            if new_name[0].isdigit():
-               name = name[:i-1]
-            else:
-                name = new_name
-            break
-    name = name.strip('\'”"“‘’').replace(u'\xa0', u' ').replace(u'&amp;', u'and')
    
-    for i in range(len(name)):
-
-        if name[i] == ':':
-          
-            if name.lower() not in exceptions:
-             
-                name = name[:i]
-                break
-
-    name = name.lower()
-    return name
+    
 
 
 def check_valid_test(results):
@@ -345,10 +311,10 @@ def scrapeUrls(sites):
                 for j in cur_data:
                     res = clean_name(j)
                     if res:
-                        data.add(res.title())
+                        data.add(titleize(res))
             # else:
             #     print(site)
-    
+        
         return list(data)
 
 # def scrapeUrls(sites):
